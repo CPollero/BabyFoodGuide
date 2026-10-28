@@ -255,13 +255,13 @@ export const PortionCalculator: React.FC<PortionCalculatorProps> = ({
             <div
               className={`p-3.5 rounded-2xl border ${
                 hasBrainFat
-                  ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-950 dark:text-emerald-100'
+                  ? 'bg-emerald-50 border-emerald-300 text-emerald-900'
                   : `${t.cardSubtleBg} ${t.borderBase} ${t.textMuted}`
               }`}
             >
               <div className="flex items-center gap-2 font-bold text-xs uppercase tracking-wider mb-1">
                 <span>🧠</span>
-                <span className={hasBrainFat ? 'text-emerald-700 dark:text-emerald-300' : t.textPrimary}>
+                <span className={hasBrainFat ? 'text-emerald-800' : t.textPrimary}>
                   Grasas para el Cerebro
                 </span>
               </div>
