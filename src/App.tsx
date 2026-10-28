@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Header } from './components/Header';
-import { BottomNav } from './components/BottomNav';
 import { FoodCatalog } from './components/FoodCatalog';
 import { PortionCalculator, PlateItem } from './components/PortionCalculator';
 import { SafetySection } from './components/SafetySection';
@@ -157,13 +156,6 @@ function FoodGuideApp() {
           onAskRecipeWithFood={handleAskRecipeWithFood}
         />
       )}
-
-      {/* Bottom Navigation for Mobile (Thumb-friendly) */}
-      <BottomNav
-        activeTab={activeTab}
-        onTabChange={setActiveTab}
-        plateCount={plate.length}
-      />
     </div>
   );
 }
