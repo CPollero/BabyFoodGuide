@@ -229,7 +229,7 @@ export const ChatAssistant: React.FC<ChatAssistantProps> = ({
             <div className={`w-8 h-8 rounded-xl ${t.accentBadgeBg} ${t.accentBadgeText} border ${t.accentBadgeBorder} flex items-center justify-center shrink-0`}>
               <Bot className="w-4 h-4" />
             </div>
-            <div className={`${t.cardSubtleBg} border ${t.borderBase} rounded-3xl rounded-tl-xs p-4 flex items-center gap-2.5 text-xs ${t.textMuted} shadow-xs`}>
+            <div className={`${t.cardSubtleBg} border ${t.borderBase} rounded-3xl rounded-tl-xs p-4 flex items-center gap-2.5 text-xs ${t.textPrimary} shadow-xs`}>
               <Loader2 className={`w-4 h-4 ${t.accentText} animate-spin`} />
               <span>Preparando receta segura y calculando texturas...</span>
             </div>
@@ -255,7 +255,7 @@ export const ChatAssistant: React.FC<ChatAssistantProps> = ({
             type="button"
             onClick={() => sendMessage(prompt)}
             disabled={isLoading}
-            className={`px-3 py-1.5 rounded-xl ${t.cardBg} border ${t.borderBase} ${t.textPrimary} text-[11px] font-semibold whitespace-nowrap shrink-0 transition-colors active:scale-95 disabled:opacity-50 hover:border-emerald-500`}
+            className={`px-3 py-1.5 rounded-xl ${t.cardBg} border ${t.borderBase} ${t.textPrimary} text-[11px] font-semibold whitespace-nowrap shrink-0 transition-colors active:scale-95 disabled:opacity-50 hover:opacity-80`}
           >
             {prompt}
           </button>
@@ -278,7 +278,7 @@ export const ChatAssistant: React.FC<ChatAssistantProps> = ({
             onChange={(e) => setInputText(e.target.value)}
             placeholder="Pide una receta (ej. 35g camote + 25g pollo)..."
             disabled={isLoading}
-            className={`flex-1 ${t.inputBg} border ${t.borderBase} ${t.ringFocus} rounded-2xl px-4 py-3 text-xs sm:text-sm ${t.textPrimary} placeholder:text-stone-400 outline-hidden transition-all`}
+            className={`flex-1 ${t.inputBg} border ${t.borderBase} ${t.ringFocus} rounded-2xl px-4 py-3 text-xs sm:text-sm ${t.textPrimary} placeholder:text-stone-400 placeholder:opacity-70 outline-hidden transition-all`}
           />
 
           <button
