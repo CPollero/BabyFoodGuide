@@ -1,0 +1,6 @@
+{
+  "name": "FoodGuide - Nutrición Infantil y BLW",
+  "description": "Guía interactiva mobile-first de alimentación complementaria (BLW y purés), calculadora nutricional en gramos y asistente pediátrico de recetas con IA.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
