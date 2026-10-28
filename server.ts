@@ -143,6 +143,9 @@ if (!isProduction) {
     server: { middlewareMode: true, hmr: process.env.DISABLE_HMR !== 'true' },
     appType: 'spa',
   });
+  app.get('/', (_req, res) => {
+    res.redirect('/BabyFoodGuide/');
+  });
   app.use(vite.middlewares);
 } else {
   const distPath = path.resolve(__dirname, 'dist');
