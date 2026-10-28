@@ -3,6 +3,7 @@ import { Send, Bot, User, ChefHat, RotateCcw, AlertCircle, Loader2 } from 'lucid
 import { PlateItem } from './PortionCalculator';
 import { MarkdownRenderer } from './MarkdownRenderer';
 import { useTheme } from '../context/ThemeContext';
+import { generateLocalPediatricResponse } from '../services/localPediatricChef';
 
 export interface ChatMessage {
   id: string;
@@ -80,39 +81,68 @@ export const ChatAssistant: React.FC<ChatAssistantProps> = ({
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          messages: newMessages.map((m) => ({
-            role: m.role,
-            text: m.text,
-          })),
-          currentPlate: currentPlate.map((p) => ({
-            name: p.food.name,
-            group: p.food.groups.join(' / '),
-            grams: p.grams,
-          })),
-        }),
-      });
+      let replyContent = '';
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || `Error ${response.status}: no se pudo obtener respuesta.`);
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 9000);
+
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          signal: controller.signal,
+          body: JSON.stringify({
+            messages: newMessages.map((m) => ({
+              role: m.role,
+              text: m.text,
+            })),
+            currentPlate: currentPlate.map((p) => ({
+              name: p.food.name,
+              group: p.food.groups.join(' / '),
+              grams: p.grams,
+            })),
+          }),
+        });
+
+        clearTimeout(timeoutId);
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data && data.reply) {
+            replyContent = data.reply;
+          }
+        }
+      } catch (networkOrTimeoutErr) {
+        // Expected when hosted on static GitHub Pages or during transient network disconnect
+        console.info('Backend API unavailable or static hosting detected, activating local pediatric engine...', networkOrTimeoutErr);
       }
 
-      const data = await response.json();
+      // If backend was not reached or failed (GitHub Pages static environment), use intelligent local engine
+      if (!replyContent) {
+        replyContent = generateLocalPediatricResponse(text, currentPlate);
+      }
+
       const modelMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
         role: 'model',
-        text: data.reply || 'Disculpa, no pude generar una respuesta.',
+        text: replyContent,
         timestamp: new Date(),
       };
 
       setMessages((prev) => [...prev, modelMessage]);
     } catch (err: any) {
       console.error('Chat error:', err);
-      setErrorMsg(err?.message || 'Error de conexión con el asistente.');
+      // Even in case of unexpected exception, fallback to local engine
+      const fallbackReply = generateLocalPediatricResponse(text, currentPlate);
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: (Date.now() + 1).toString(),
+          role: 'model',
+          text: fallbackReply,
+          timestamp: new Date(),
+        },
+      ]);
     } finally {
       setIsLoading(false);
     }
