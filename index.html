@@ -13,13 +13,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script>
-      // Only redirect if GitHub Pages is serving the raw uncompiled root containing .tsx
-      if (window.location.hostname.includes('github.io') && document.querySelector('script[src*=".tsx"]')) {
-        var cleanPath = window.location.pathname.replace(/\/+$/, '');
-        window.location.replace(cleanPath + '/docs/' + window.location.search + window.location.hash);
-      }
-    </script>
   </head>
   <body class="bg-amber-50/40 text-stone-800 antialiased font-sans selection:bg-orange-200">
     <div id="root"></div>
